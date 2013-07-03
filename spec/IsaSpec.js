@@ -145,4 +145,115 @@ describe("Isa", function () {
 			});
 		});
 	});
+
+	describe("add()", function () {
+		describe("when adding empty object", function () {
+			it("should return the original object", function () {
+				obj1 = { p1: 123 };
+				obj2 = {};
+				expected = obj1;
+
+				result = isa.add(obj1, obj2);
+				expect(result).toEqual(expected);
+			});
+		});
+
+		describe("when adding non-empty object with one layer of depth", function () {
+			it("should return an object adding properties from obj2", function () {
+				obj1 = {
+					p1: 123,
+					p2: "abc"
+				};
+				obj2 = {
+					p3: "foo"
+				};
+				expected = {
+					p1: 123,
+					p2: "abc",
+					p3: "foo"
+				};
+
+				result = isa.add(obj1, obj2);
+				expect(result).toEqual(expected);
+			});
+		});
+
+		describe("when adding non-empty object with multiple layers of depth", function () {
+			it("should return an object adding properties from obj2", function () {
+				obj1 = {
+					p1: 123,
+					p2: "abc",
+					p3: {
+						p31: 123,
+						p32: {
+							p321: "foo"
+						}
+					}
+				};
+				obj2 = {
+					p3: {
+						p33: 456,
+						p34: {
+							p341: 123
+						}
+					},
+					p4: "foo",
+					p5: {
+						p51: 123
+					}
+				};
+				expected = {
+					p1: 123,
+					p2: "abc",
+					p3: {
+						p31: 123,
+						p32: {
+							p321: "foo"
+						},
+						p33: 456,
+						p34: {
+							p341: 123
+						}
+					},
+					p4: "foo",
+					p5: {
+						p51: 123
+					}
+				};
+
+				result = isa.add(obj1, obj2);
+				expect(result).toEqual(expected);
+			});
+		});
+
+		describe("when adding non-empty object with multiple layers of depth, two objects have same properties", function () {
+			it("should return an object adding properties from obj2", function () {
+				obj1 = {
+					p1: 123,
+					p2: "abc",
+					p3: {
+						p31: 123
+					},
+					p4: "foo"
+				};
+				obj2 = {
+					p3: {
+						p31: 456
+					},
+					p4: "bar"
+				};
+				expected = {
+					p1: 123,
+					p2: "abc",
+					p3: {
+						p31: 456
+					},
+					p4: "bar"
+				};
+
+				result = isa.add(obj1, obj2);
+				expect(result).toEqual(expected);
+			});
+		});
+	});
 });

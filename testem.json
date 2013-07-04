@@ -1,7 +1,8 @@
 {
 	"framework": "jasmine",
 	"src_files": [
-		"src/*.js",
+		"src/Util.js",
+		"src/Isa.js",
 		"spec/*.js"
 	]
 }

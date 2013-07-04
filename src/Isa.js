@@ -1,14 +1,7 @@
-var Isa;
-
-// helper functions
-function type(o){
-	    return !!o && Object.prototype.toString.call(o).match(/(\w+)\]/)[1];
-}
-
-// functions will not be cloned
-function clone(o) {
-	return JSON.parse(JSON.stringify(o));
-}
+var Isa,
+	clone = window.Util.clone,
+	type = window.Util.getType,
+	arraySubtract = window.Util.arraySubtract;
 
 // core functions
 Isa = function () {};
@@ -67,11 +60,14 @@ Isa.prototype.subtract = function (obj1, obj2) {
 	for (property in obj2) {
 		if (slate.hasOwnProperty(property))
 		{
-			if (type(obj1[property]) !== "Object") {
-				delete slate[property];
+			if (type(obj1[property]) === "Object") {
+				slate[property] = this.subtract(obj1[property], obj2[property]);
+			}
+			else if (type(obj1[property]) === "Array") {
+				slate[property] = arraySubtract(slate[property], obj2[property]);
 			}
 			else {
-				slate[property] = this.subtract(obj1[property], obj2[property]);
+				delete slate[property];
 			}
 		}
 	}

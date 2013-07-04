@@ -144,6 +144,34 @@ describe("Isa", function () {
 				expect(result).toEqual(expected);
 			});
 		});
+
+		describe("when subtracting with object with property of array type", function () {
+			it("should remove values in the array", function () {
+				obj1 = {
+					p1: [
+						123,
+						456,
+						123,
+						789
+					]
+				};
+				obj2 = {
+					p1: [
+						123,
+						789
+					]
+				};
+				expected = {
+					p1: [
+						456
+					]
+				};
+
+				result = isa.subtract(obj1, obj2);
+
+				expect(result).toEqual(expected);
+			});
+		});
 	});
 
 	describe("add()", function () {

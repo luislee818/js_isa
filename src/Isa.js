@@ -100,11 +100,14 @@ Isa.prototype.add = function (obj1, obj2) {
 
 	for (property in obj2) {
 		if (slate.hasOwnProperty(property)) {
-			if (type(slate[property]) !== "Object") {
-				slate[property] = obj2[property];
+			if (type(slate[property]) === "Object") {
+				slate[property] = this.add(slate[property], obj2[property]);
+			}
+			else if (type(slate[property]) === "Array" && type(obj2[property]) === "Array") {
+				slate[property] = slate[property].concat(obj2[property]);
 			}
 			else {
-				slate[property] = this.add(slate[property], obj2[property]);
+				slate[property] = obj2[property];
 			}
 		}
 		else {

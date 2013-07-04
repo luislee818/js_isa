@@ -1,10 +1,23 @@
 var Isa,
+	each = window.Util.each,
 	clone = window.Util.clone,
 	type = window.Util.getType,
 	arraySubtract = window.Util.arraySubtract;
 
 // core functions
 Isa = function () {};
+
+Isa.prototype.incise = function (obj, fnGuides) {
+	var slate = {},
+		self = this;
+
+	each(fnGuides, function (i, fnGuide) {
+		var incisedObj = fnGuide(obj);
+		slate = self.add(slate, incisedObj);
+	});
+
+	return slate;
+};
 
 /**
  * Get shared properties from two objects, "shared" means properties have the same name and hierarchy (property values are not checked)

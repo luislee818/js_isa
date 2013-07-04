@@ -9,6 +9,75 @@ describe("Isa", function () {
 		isa = new Isa();
 	});
 
+	describe("incise()", function () {
+		it("should return object specified by the guide functions", function () {
+			var obj = {
+				p1: {
+					p11: 123,
+					p12: {
+						p121: "foo",
+						p122: "baz",
+						p123: "test"
+					},
+					p13: {
+						p131: "quxx"
+					}
+				},
+				p2: {
+					p21: "bar",
+					p22: "nonsense"
+				}
+			},
+			fnGuide1,
+			fnGuide2,
+			fnGuides = [],
+			result,
+			expected = {
+				p1: {
+					p11: 123,
+					p12: {
+						p122: "baz",
+						p123: "test"
+					}
+				},
+				p2: {
+					p22: "nonsense"
+				}
+			}
+
+			fnGuide1 = function (obj) {
+				return {
+					p1: {
+						p11: obj.p1.p11,
+						p12: {
+							p122: obj.p1.p12.p122
+						}
+					}
+				};
+			};
+
+			fnGuide2 = function (obj) {
+				return {
+					p1: {
+						p12: {
+							p123: obj.p1.p12.p123
+						}
+					},
+					p2: {
+						p22: obj.p2.p22
+					}
+				};
+			};
+
+			fnGuides.push(fnGuide1);
+			fnGuides.push(fnGuide2);
+
+			result = isa.incise(obj, fnGuides);
+
+			expect(result).toEqual(expected);
+		});
+	});
+
 	describe("intersect()", function () {
 		describe("when intersecting with empty object", function () {
 			it("should return empty object when intersecting with empty object", function () {

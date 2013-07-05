@@ -7,6 +7,15 @@ var Isa,
 // core functions
 Isa = function () {};
 
+/**
+ * Get an object with all the objects returned by executing fnGuides combined
+ *
+ * @memberOf Isa
+ * @function
+ * @param {object} obj The object to incise on
+ * @param {array} fnGuides An array of functions
+ * @return {object} An object with all the objects returned by executing fnGuides combined
+ */
 Isa.prototype.incise = function (obj, fnGuides) {
 	var slate = {},
 		self = this;
@@ -24,9 +33,9 @@ Isa.prototype.incise = function (obj, fnGuides) {
  *
  * @memberOf Isa
  * @function
- * @param {} obj1 The first object
- * @param {} obj2 The second object
- * @return {} The object with shared properties
+ * @param {object} obj1 The first object
+ * @param {object} obj2 The second object
+ * @return {object} The object with shared properties
  */
 Isa.prototype.intersect = function (obj1, obj2) {
 	var result = {},
@@ -56,9 +65,9 @@ Isa.prototype.intersect = function (obj1, obj2) {
  *
  * @memberOf Isa
  * @function
- * @param {} obj1 The first object, the object based on which to remove property from
- * @param {} obj2 The second object, the object based on which to look for properties to remove
- * @return {} The object with properties subtracted
+ * @param {object} obj1 The first object, the object based on which to remove property from
+ * @param {object} obj2 The second object, the object based on which to look for properties to remove
+ * @return {object} The object with properties subtracted
  */
 Isa.prototype.subtract = function (obj1, obj2) {
 	var slate,
@@ -93,9 +102,9 @@ Isa.prototype.subtract = function (obj1, obj2) {
  *
  * @memberOf Isa
  * @function
- * @param {} obj1 The first object
- * @param {} obj2 The second object
- * @return {} The object with properties added from both objects
+ * @param {object} obj1 The first object
+ * @param {object} obj2 The second object
+ * @return {object} The object with properties added from both objects
  */
 Isa.prototype.add = function (obj1, obj2) {
 	var slate,

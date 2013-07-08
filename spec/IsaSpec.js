@@ -214,7 +214,7 @@ describe("Isa", function () {
 			});
 		});
 
-		describe("when subtracting with object with property of array type", function () {
+		describe("when subtracting with object with property of array of primitives", function () {
 			it("should remove values in the array", function () {
 				obj1 = {
 					p1: [
@@ -233,6 +233,34 @@ describe("Isa", function () {
 				expected = {
 					p1: [
 						456
+					]
+				};
+
+				result = isa.subtract(obj1, obj2);
+
+				expect(result).toEqual(expected);
+			});
+		});
+
+		describe("when subtracting with object with property of array of objects with ids", function () {
+			it("should remove objects with matching ids from array", function () {
+				obj1 = {
+					p1: [
+						{ id: 123 },
+						{ id: 456 },
+						{ id: 123 },
+						{ id: 789 }
+					]
+				};
+				obj2 = {
+					p1: [
+						{ id: 123 },
+						{ id: 789 }
+					]
+				};
+				expected = {
+					p1: [
+						{ id: 456 }
 					]
 				};
 

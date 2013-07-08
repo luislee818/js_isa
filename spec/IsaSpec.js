@@ -282,7 +282,7 @@ describe("Isa", function () {
 			it("should remove properties from objects with matching ids in arrays", function () {
 				obj1 = {
 					p1: [
-						{ id: 123, foo: "abc" },
+						{ id: 123, foo: "abc", bar: "quxx" },
 						{ id: 456 },
 						{ id: 789 }
 					]
@@ -295,7 +295,7 @@ describe("Isa", function () {
 				};
 				expected = {
 					p1: [
-						{ id: 123, foo: "abc" },
+						{ id: 123, bar: "quxx" },
 						{ id: 456 }
 					]
 				};

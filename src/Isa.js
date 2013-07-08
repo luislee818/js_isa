@@ -1,4 +1,5 @@
 var Isa,
+	find = window.Util.find,
 	each = window.Util.each,
 	clone = window.Util.clone,
 	type = window.Util.getType,
@@ -72,7 +73,9 @@ Isa.prototype.intersect = function (obj1, obj2) {
  */
 Isa.prototype.subtract = function (obj1, obj2) {
 	var slate,
-		property;
+		property,
+		self = this,
+		resultArr;
 
 	if (obj2 === {}) {
 		return obj1;
@@ -87,6 +90,23 @@ Isa.prototype.subtract = function (obj1, obj2) {
 				slate[property] = this.subtract(obj1[property], obj2[property]);
 			}
 			else if (type(obj1[property]) === "Array") {
+				// if should use id to look up
+				resultArr = [];
+				each(obj1[property], function (i, ele1) {
+					var matchingElement2 = find(obj2[property], function (j, ele2) {
+						return ele2.id !== undefined && ele2.id === ele1.id;
+					});
+
+					if (matchingElement2 !== undefined) {
+						resultArr.push(self.subtract(ele1, matchingElement2));
+					}
+					else {
+						resultArr.push(ele1);
+					}
+				});
+
+				obj1[property] = resultArr;
+				// else use position to look up
 				slate[property] = arraySubtract(slate[property], obj2[property]);
 			}
 			else {

@@ -1,5 +1,15 @@
 var Util = {};
 
+Util.find = function (arr, predicate) {
+	for (var i = 0; i < arr.length; i++) {
+		if (predicate(i, arr[i])) {
+			return arr[i];
+		}
+	}
+
+	return undefined;
+};
+
 Util.each = function (arr, iterator) {
 	for (var i = 0; i < arr.length; i++) {
 		iterator(i, arr[i]);

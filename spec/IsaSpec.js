@@ -225,6 +225,31 @@ describe("Isa", function () {
 			});
 		});
 
+		describe("when subtracting with object with property of array with identical values", function () {
+			it("should return empty array", function () {
+				obj1 = {
+					p1: [
+						123,
+						456
+					]
+				};
+				obj2 = {
+					p1: [
+						123,
+						456
+					]
+				};
+				expected = {
+					p1: [
+					]
+				};
+
+				result = isa.subtract(obj1, obj2);
+
+				expect(result).toEqual(expected);
+			});
+		});
+
 		describe("when subtracting with object with property of array of primitives", function () {
 			it("should remove values in the array", function () {
 				obj1 = {
@@ -254,23 +279,23 @@ describe("Isa", function () {
 		});
 
 		describe("when subtracting with object with property of array of objects with ids", function () {
-			it("should remove objects with matching ids from array", function () {
+			it("should remove properties from objects with matching ids in arrays", function () {
 				obj1 = {
 					p1: [
-						{ id: 123 },
+						{ id: 123, foo: "abc" },
 						{ id: 456 },
-						{ id: 123 },
 						{ id: 789 }
 					]
 				};
 				obj2 = {
 					p1: [
-						{ id: 123 },
+						{ id: 123, foo: "def" },
 						{ id: 789 }
 					]
 				};
 				expected = {
 					p1: [
+						{ id: 123, foo: "abc" },
 						{ id: 456 }
 					]
 				};
@@ -280,6 +305,34 @@ describe("Isa", function () {
 				expect(result).toEqual(expected);
 			});
 		});
+
+		/* describe("when subtracting with object with property of array of objects without ids", function () { */
+		/* 	it("should subtract objects with matching indexes from array", function () { */
+		/* 		obj1 = { */
+		/* 			p1: [ */
+		/* 				{ foo: 123 }, */
+		/* 				{ foo: 456 }, */
+		/* 				{ foo: 789 } */
+		/* 			] */
+		/* 		}; */
+		/* 		obj2 = { */
+		/* 			p1: [ */
+		/* 				{ foo: 123 }, */
+		/* 				{ foo: 789 } */
+		/* 			] */
+		/* 		}; */
+		/* 		expected = { */
+		/* 			p1: [ */
+		/* 				{ foo: 456 }, */
+		/* 				{ foo: 789 } */
+		/* 			] */
+		/* 		}; */
+
+		/* 		result = isa.subtract(obj1, obj2); */
+
+		/* 		expect(result).toEqual(expected); */
+		/* 	}); */
+		/* }); */
 	});
 
 	describe("add()", function () {

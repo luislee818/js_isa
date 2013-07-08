@@ -165,6 +165,17 @@ describe("Isa", function () {
 			});
 		});
 
+		describe("when subtracting identical object", function () {
+			it("should return undefined", function () {
+				obj1 = { p1: 123 };
+				obj2 = obj1;
+				expected = undefined;
+
+				result = isa.subtract(obj1, obj2);
+				expect(result).toEqual(expected);
+			});
+		});
+
 		describe("when subtracting non-empty object with one layer of depth", function () {
 			it("should return an object subtracting properties from obj2", function () {
 				obj1 = {

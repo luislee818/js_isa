@@ -66,3 +66,13 @@ Util.getType = function (o) {
 Util.clone = function (o) {
 	return JSON.parse(JSON.stringify(o));
 };
+
+Util.isEmpty = function (o) {
+	for (var prop in o) {
+		if(o.hasOwnProperty(prop)) {
+			return false;
+		}
+	}
+
+	return true;
+};

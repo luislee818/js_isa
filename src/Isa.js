@@ -2,7 +2,8 @@ var Isa,
 	each = window.Util.each,
 	clone = window.Util.clone,
 	type = window.Util.getType,
-	arraySubtract = window.Util.arraySubtract;
+	arraySubtract = window.Util.arraySubtract,
+	isEmpty = window.Util.isEmpty;
 
 // core functions
 Isa = function () {};
@@ -94,7 +95,12 @@ Isa.prototype.subtract = function (obj1, obj2) {
 		}
 	}
 
-	return slate;
+	if (isEmpty(slate)) {
+		return undefined;
+	}
+	else {
+		return slate;
+	}
 };
 
 /**

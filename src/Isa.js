@@ -83,7 +83,7 @@ Isa.prototype.subtract = function (obj1, obj2) {
 		return obj1;
 	}
 
-	if (type(obj1) === "Object") {
+	if (type(obj1) === "Object") {  // invoke subtract on every property of object
 		slate = clone(obj1);
 
 		for (property in obj2) {
@@ -109,7 +109,7 @@ Isa.prototype.subtract = function (obj1, obj2) {
 			return slate;
 		}
 	}
-	else if (type(obj1) === "Array") {
+	else if (type(obj1) === "Array") {  // find matching element by id or index, invoke subtract
 		resultArr = [];
 		each(obj1, function (i, ele1) {
 			var matchingElement2;
@@ -134,12 +134,11 @@ Isa.prototype.subtract = function (obj1, obj2) {
 		});
 
 		return resultArr;
-		// else use position to look up
 	}
-	else if (obj1 === obj2) {
+	else if (obj1 === obj2) {  // comparable and equal, should wipe out
 		return undefined;
 	}
-	else {
+	else {  // leave object on the left as is
 		return obj1;
 	}
 };
@@ -169,7 +168,7 @@ Isa.prototype.add = function (obj1, obj2) {
 		return obj1;
 	}
 
-	if (type(obj1) === "Object") {
+	if (type(obj1) === "Object") {  // invoke add on every property of object
 		slate = clone(obj1);
 
 		for (property in obj2) {
@@ -177,12 +176,12 @@ Isa.prototype.add = function (obj1, obj2) {
 			slate[property] = result;
 		}
 	}
-	else if (type(obj1) === "Array") {
+	else if (type(obj1) === "Array") {  // invoke add on matching element or add new
 		slate = clone(obj1);
 
 		each(obj2, function (j, ele2) {
 			if (type(ele2) === "Object") {
-				if (ele2.id !== undefined) {
+				if (ele2.id !== undefined) {  // find matching element by id
 					var matchingElement1Index;
 
 					matchingElement1 = find(obj1, function (i, ele1) {
@@ -202,18 +201,18 @@ Isa.prototype.add = function (obj1, obj2) {
 						slate[matchingElement1Index] = result;
 					}
 				}
-				else if (j < obj1.length) {
+				else if (j < obj1.length) {  // find matching element by index
 					matchingElement1 = obj1[j];
 					result = self.add(matchingElement1, ele2);
 					slate[j] = result;
 				}
 			}
-			else {
+			else {  // add element on the right to the array
 				slate.push(ele2);
 			}
 		});
 	}
-	else {
+	else {  // no match, add element on the right
 		return obj2;
 	}
 

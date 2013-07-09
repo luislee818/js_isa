@@ -65,3 +65,13 @@ Util.isEmpty = function (o) {
 
 	return true;
 };
+
+Util.onlyHasProperties = function (o, properties) {
+	var clone = this.clone(o);
+
+	each(properties, function (i, prop) {
+		delete clone[prop];
+	});
+
+	return this.isEmpty(clone);
+};

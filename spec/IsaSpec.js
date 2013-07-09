@@ -191,14 +191,14 @@ describe("Isa", function () {
 			it("should return an object subtracting properties from obj2", function () {
 				obj1 = {
 					p1: 123,
-					p2: "abc"
+				p2: "abc"
 				};
 				obj2 = {
 					p1: "foo"
 				};
 				expected = {
 					p1: 123,
-					p2: "abc"
+				p2: "abc"
 				};
 
 				result = isa.subtract(obj1, obj2);
@@ -210,17 +210,17 @@ describe("Isa", function () {
 			it("should return an object subtracting properties from obj2, leave id property", function () {
 				obj1 = {
 					id: 1,
-					p1: 123,
-					p2: "abc"
+				p1: 123,
+				p2: "abc"
 				};
 				obj2 = {
 					id: 1,
-					p1: "foo"
+				p1: "foo"
 				};
 				expected = {
 					id: 1,
-					p1: 123,
-					p2: "abc"
+				p1: 123,
+				p2: "abc"
 				};
 
 				result = isa.subtract(obj1, obj2);
@@ -232,27 +232,27 @@ describe("Isa", function () {
 			it("should return an object subtracting properties from obj2", function () {
 				obj1 = {
 					p1: 123,
-					p2: "abc",
-					p3: {
-						p31: 123,
-						p32: "foo",
-						p33: "bar"
-					}
+				p2: "abc",
+				p3: {
+					p31: 123,
+				p32: "foo",
+				p33: "bar"
+				}
 				};
 				obj2 = {
 					p1: "foo",
-					p3: {
-						p31: 123,
-						p34: "foo"
-					}
+				p3: {
+					p31: 123,
+				p34: "foo"
+				}
 				};
 				expected = {
 					p1: 123,
-					p2: "abc",
-					p3: {
-						p32: "foo",
-						p33: "bar"
-					}
+				p2: "abc",
+				p3: {
+					p32: "foo",
+					p33: "bar"
+				}
 				};
 
 				result = isa.subtract(obj1, obj2);
@@ -264,19 +264,19 @@ describe("Isa", function () {
 			it("should return empty array", function () {
 				obj1 = {
 					p1: [
-						123,
-						456
-					]
+				123,
+				456
+				]
 				};
 				obj2 = {
 					p1: [
-						123,
-						456
-					]
+				123,
+				456
+				]
 				};
 				expected = {
 					p1: [
-					]
+				]
 				};
 
 				result = isa.subtract(obj1, obj2);
@@ -286,24 +286,153 @@ describe("Isa", function () {
 		});
 
 		describe("when subtracting with object with property of array of primitives", function () {
-			it("should remove values in the array", function () {
+			it("should remove values in the array according to indexes", function () {
 				obj1 = {
 					p1: [
-						123,
-						456,
-						123,
-						789
-					]
+				123,
+				456,
+				123,
+				789
+				]
 				};
 				obj2 = {
 					p1: [
-						123,
-						789
-					]
+				123,
+				789
+				]
 				};
 				expected = {
 					p1: [
-						456
+				456,
+				123,
+				789
+				]
+				};
+
+				result = isa.subtract(obj1, obj2);
+
+				expect(result).toEqual(expected);
+			});
+		});
+
+		describe("when subtracting with object with property of array of objects with ids", function () {
+			it("should remove properties from objects with matching ids in arrays", function () {
+				obj1 = {
+					p1: [
+			{ id: 123, foo: "abc", bar: "quxx" },
+				{ id: 456 },
+				{ id: 789 }
+			]
+				};
+				obj2 = {
+					p1: [
+			{ id: 123, foo: "def" },
+				{ id: 789 }
+			]
+				};
+				expected = {
+					p1: [
+			{ id: 123, foo:"abc", bar: "quxx" },
+				{ id: 456 }
+			]
+				};
+
+				result = isa.subtract(obj1, obj2);
+
+				expect(result).toEqual(expected);
+			});
+		});
+
+		describe("when subtracting with object with property of array of objects without ids", function () {
+			it("should subtract objects with matching indexes from array", function () {
+				obj1 = {
+					p1: [
+			{ foo: 123 },
+				{ foo: 456 },
+				{ foo: 789 }
+			]
+				};
+				obj2 = {
+					p1: [
+			{ foo: 123 },
+				{ foo: 789 }
+			]
+				};
+				expected = {
+					p1: [
+			{ foo: 456 },
+				{ foo: 789 }
+			]
+				};
+
+				result = isa.subtract(obj1, obj2);
+
+				expect(result).toEqual(expected);
+			});
+		});
+
+		describe("when subtracting with complex test data", function () {
+			it("should subtract correctly", function () {
+				obj1 = {
+					"surfaces": [
+					{
+						"elements": [
+						{
+							"frameId": "6f6364ab-d64c-4b19-ab6a-a338de7949fd",
+							"height": 120.00,
+							"id": "0e0bde0e-bec8-4e65-b4c4-63b76fa412e5"
+						},
+						{
+							"frameId": "a97efd79-8f31-415b-864c-f0d1f9d44a3f",
+							"height": 120.00,
+							"id": "df6eb61a-cbd3-4635-aedb-ecbe87be7e3d"
+						}
+						],
+						"frames": [
+						{
+							"id": "6f6364ab-d64c-4b19-ab6a-a338de7949fd"
+						},
+						{
+							"id": "a97efd79-8f31-415b-864c-f0d1f9d44a3f"
+						}
+						]
+					}
+					]
+				};
+				obj2 = {
+					"surfaces": [
+					{
+						"elements": [
+						{
+							"frameId": "6f6364ab-d64c-4b19-ab6a-a338de7949fd",
+							"height": 120.00,
+							"id": "0e0bde0e-bec8-4e65-b4c4-63b76fa412e5"
+						}
+						],
+							"frames": [
+							{
+								"id": "6f6364ab-d64c-4b19-ab6a-a338de7949fd"
+							}
+						]
+					}
+					]
+				};
+				expected = {
+					"surfaces": [
+					{
+						"elements": [
+						{
+							"frameId": "a97efd79-8f31-415b-864c-f0d1f9d44a3f",
+							"height": 120.00,
+							"id": "df6eb61a-cbd3-4635-aedb-ecbe87be7e3d"
+						}
+						],
+							"frames": [
+							{
+								"id": "a97efd79-8f31-415b-864c-f0d1f9d44a3f"
+							}
+						]
+					}
 					]
 				};
 
@@ -313,61 +442,88 @@ describe("Isa", function () {
 			});
 		});
 
-		/* describe("when subtracting with object with property of array of objects with ids", function () { */
-		/* 	it("should remove properties from objects with matching ids in arrays", function () { */
-		/* 		obj1 = { */
-		/* 			p1: [ */
-		/* 				{ id: 123, foo: "abc", bar: "quxx" }, */
-		/* 				{ id: 456 }, */
-		/* 				{ id: 789 } */
-		/* 			] */
-		/* 		}; */
-		/* 		obj2 = { */
-		/* 			p1: [ */
-		/* 				{ id: 123, foo: "def" }, */
-		/* 				{ id: 789 } */
-		/* 			] */
-		/* 		}; */
-		/* 		expected = { */
-		/* 			p1: [ */
-		/* 				{ id: 123, bar: "quxx" }, */
-		/* 				{ id: 456 } */
-		/* 			] */
-		/* 		}; */
+		describe("when subtracting with more complex test data", function () {
+			it("should subtract correctly", function () {
+				obj1 = {
+					"fontSize": {
+						"maximum": 36,
+						"minimum": 8
+					},
+					"id": "6b6a25aa-3035-47ff-95e0-94417148a0d1",
+					"productType": "Standard",
+					"surfaces": [
+					{
+						"elements": [
+						{
+							"frameId": "6f6364ab-d64c-4b19-ab6a-a338de7949fd",
+							"height": 120.00,
+							"id": "0e0bde0e-bec8-4e65-b4c4-63b76fa412e5"
+						},
+						{
+							"frameId": "a97efd79-8f31-415b-864c-f0d1f9d44a3f",
+							"height": 120.00,
+							"id": "df6eb61a-cbd3-4635-aedb-ecbe87be7e3d"
+						}
+						],
+						"frames": [
+						{
+							"id": "6f6364ab-d64c-4b19-ab6a-a338de7949fd"
+						},
+						{
+							"id": "a97efd79-8f31-415b-864c-f0d1f9d44a3f"
+						}
+						]
+					}
+					]
+				};
+				obj2 = {
+					"surfaces": [
+					{
+						"elements": [
+						{
+							"frameId": "6f6364ab-d64c-4b19-ab6a-a338de7949fd",
+							"height": 120.00,
+							"id": "0e0bde0e-bec8-4e65-b4c4-63b76fa412e5"
+						}
+						],
+						"frames": [
+						{
+							"id": "6f6364ab-d64c-4b19-ab6a-a338de7949fd"
+						}
+						]
+					}
+					]
+				};
+				expected = {
+					"fontSize": {
+						"maximum": 36,
+						"minimum": 8
+					},
+					"id": "6b6a25aa-3035-47ff-95e0-94417148a0d1",
+					"productType": "Standard",
+					"surfaces": [
+					{
+						"elements": [
+						{
+							"frameId": "a97efd79-8f31-415b-864c-f0d1f9d44a3f",
+							"height": 120.00,
+							"id": "df6eb61a-cbd3-4635-aedb-ecbe87be7e3d"
+						}
+						],
+						"frames": [
+						{
+							"id": "a97efd79-8f31-415b-864c-f0d1f9d44a3f"
+						}
+						]
+					}
+					]
+				};
 
-		/* 		result = isa.subtract(obj1, obj2); */
+				result = isa.subtract(obj1, obj2);
 
-		/* 		expect(result).toEqual(expected); */
-		/* 	}); */
-		/* }); */
-
-		/* describe("when subtracting with object with property of array of objects without ids", function () { */
-		/* 	it("should subtract objects with matching indexes from array", function () { */
-		/* 		obj1 = { */
-		/* 			p1: [ */
-		/* 				{ foo: 123 }, */
-		/* 				{ foo: 456 }, */
-		/* 				{ foo: 789 } */
-		/* 			] */
-		/* 		}; */
-		/* 		obj2 = { */
-		/* 			p1: [ */
-		/* 				{ foo: 123 }, */
-		/* 				{ foo: 789 } */
-		/* 			] */
-		/* 		}; */
-		/* 		expected = { */
-		/* 			p1: [ */
-		/* 				{ foo: 456 }, */
-		/* 				{ foo: 789 } */
-		/* 			] */
-		/* 		}; */
-
-		/* 		result = isa.subtract(obj1, obj2); */
-
-		/* 		expect(result).toEqual(expected); */
-		/* 	}); */
-		/* }); */
+				expect(result).toEqual(expected);
+			});
+		});
 	});
 
 	describe("add()", function () {

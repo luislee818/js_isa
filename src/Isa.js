@@ -3,7 +3,8 @@ var Isa,
 	each = window.Util.each,
 	clone = window.Util.clone,
 	type = window.Util.getType,
-	isEmpty = window.Util.isEmpty;
+	isEmpty = window.Util.isEmpty,
+	onlyHasProperties = window.Util.onlyHasProperties;
 
 // core functions
 Isa = function () {};
@@ -100,7 +101,8 @@ Isa.prototype.subtract = function (obj1, obj2) {
 			}
 		}
 
-		if (isEmpty(slate)) {
+		if (isEmpty(slate) ||
+			onlyHasProperties(slate, ["id"])) {
 			return undefined;
 		}
 		else {
@@ -108,15 +110,21 @@ Isa.prototype.subtract = function (obj1, obj2) {
 		}
 	}
 	else if (type(obj1) === "Array") {
-		// if should use id to look up
 		resultArr = [];
 		each(obj1, function (i, ele1) {
 			var matchingElement2;
 
-			matchingElement2 = find(obj2, function (j, ele2) {
-				return (ele2.id !== undefined && ele2.id === ele1.id) ||
-					(ele2 === ele1);
-			});
+			if (ele1.id !== undefined) {
+				matchingElement2 = find(obj2, function (j, ele2) {
+					return ele2.id === ele1.id;
+				});
+			}
+			else if (i < obj2.length) {
+				matchingElement2 = obj2[i];
+			}
+			else {
+				matchingElement2 = undefined;
+			}
 
 			result = self.subtract(ele1, matchingElement2);
 

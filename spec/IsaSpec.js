@@ -798,7 +798,7 @@ describe("Isa", function () {
 		});
 
 		describe("when adding with more complex test data", function () {
-			it("should subtract correctly", function () {
+			it("should add correctly", function () {
 				obj1 = {
 					"fontSize": {
 						"maximum": 36,

@@ -538,6 +538,17 @@ describe("Isa", function () {
 			});
 		});
 
+		describe("when adding undefined", function () {
+			it("should return the original object", function () {
+				obj1 = { p1: 123 };
+				obj2 = undefined;
+				expected = obj1;
+
+				result = isa.add(obj1, obj2);
+				expect(result).toEqual(expected);
+			});
+		});
+
 		describe("when adding non-empty object with one layer of depth", function () {
 			it("should return an object adding properties from obj2", function () {
 				obj1 = {
@@ -626,6 +637,56 @@ describe("Isa", function () {
 						456,
 						123,
 						789
+					]
+				};
+
+				result = isa.add(obj1, obj2);
+
+				expect(result).toEqual(expected);
+			});
+		});
+
+		describe("when adding with object with property of array type, elements being object with id properties", function () {
+			it("should add properties from elements in second array with matching ids", function () {
+				obj1 = {
+					p1: [
+						{
+							id: 123,
+							foo: "abc"
+						},
+						123,
+						456
+					]
+				};
+				obj2 = {
+					p1: [
+						123,
+						789,
+						{
+							id: 123,
+							bar: "def"
+						},
+						{
+							id: 456,
+							baz: "ghi"
+						}
+					]
+				};
+				expected = {
+					p1: [
+						{
+							id: 123,
+							foo: "abc",
+							bar: "def"
+						},
+						123,
+						456,
+						123,
+						789,
+						{
+							id: 456,
+							baz: "ghi"
+						}
 					]
 				};
 

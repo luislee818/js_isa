@@ -155,29 +155,59 @@ Isa.prototype.subtract = function (obj1, obj2) {
  */
 Isa.prototype.add = function (obj1, obj2) {
 	var slate,
-		property;
+		property,
+		self = this,
+		result,
+		matchingElement1;
 
-	if (obj2 === {}) {
+	if (obj1 === undefined) {
+		return obj2;
+	}
+
+	if (obj2 === undefined ||
+		(type(obj2) === "Object" && isEmpty(obj2))) {
 		return obj1;
 	}
 
-	slate = clone(obj1);
+	if (type(obj1) === "Object") {
+		slate = clone(obj1);
 
-	for (property in obj2) {
-		if (slate.hasOwnProperty(property)) {
-			if (type(slate[property]) === "Object") {
-				slate[property] = this.add(slate[property], obj2[property]);
-			}
-			else if (type(slate[property]) === "Array" && type(obj2[property]) === "Array") {
-				slate[property] = slate[property].concat(obj2[property]);
+		for (property in obj2) {
+			result = self.add(obj1[property], obj2[property]);
+			slate[property] = result;
+		}
+	}
+	else if (type(obj1) === "Array") {
+		slate = clone(obj1);
+
+		each(obj2, function (j, ele2) {
+			if (ele2.id !== undefined) {
+				var matchingElement1Index;
+
+				matchingElement1 = find(obj1, function (i, ele1) {
+					if (ele2.id === ele1.id) {
+						matchingElement1Index = i;
+						return true;
+					}
+
+					return false;
+				});
+
+				if (matchingElement1 === undefined) {
+					slate.push(ele2);
+				}
+				else {
+					result = self.add(matchingElement1, ele2);
+					slate[matchingElement1Index] = result;
+				}
 			}
 			else {
-				slate[property] = obj2[property];
+				slate.push(ele2);
 			}
-		}
-		else {
-			slate[property] = obj2[property];
-		}
+		});
+	}
+	else {
+		return obj2;
 	}
 
 	return slate;

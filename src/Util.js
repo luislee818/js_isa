@@ -48,27 +48,6 @@ Util.arraysEqual = function (arr1, arr2) {
 	return true;
 };
 
-Util.arraySubtract = function (arr1, arr2) {
-	var slate = [],
-		foundMatch,
-		each = Util.each,
-		any = Util.any,
-		type = Util.getType;
-
-	each(arr1, function (i, val1) {
-		foundMatch = any(arr2, function (j, val2) {
-			return (type(val2) === "Object" && val2.id === val1.id) ||
-				(val2 === val1);
-		});
-
-		if (!foundMatch) {
-			slate.push(val1);
-		}
-	});
-
-	return slate;
-};
-
 Util.getType = function (o) {
 	return !!o && Object.prototype.toString.call(o).match(/(\w+)\]/)[1];
 };

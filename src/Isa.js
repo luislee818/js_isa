@@ -3,7 +3,6 @@ var Isa,
 	each = window.Util.each,
 	clone = window.Util.clone,
 	type = window.Util.getType,
-	arraySubtract = window.Util.arraySubtract,
 	isEmpty = window.Util.isEmpty;
 
 // core functions
@@ -75,51 +74,65 @@ Isa.prototype.subtract = function (obj1, obj2) {
 	var slate,
 		property,
 		self = this,
+		result,
 		resultArr;
 
-	if (obj2 === {}) {
+	if (obj1 === undefined || obj2 === undefined ||
+		(type(obj2) === "Object" && isEmpty(obj2))) {
 		return obj1;
 	}
 
-	slate = clone(obj1);
+	if (type(obj1) === "Object") {
+		slate = clone(obj1);
 
-	for (property in obj2) {
-		if (slate.hasOwnProperty(property))
-		{
-			if (type(obj1[property]) === "Object") {
-				slate[property] = this.subtract(obj1[property], obj2[property]);
+		for (property in obj2) {
+			if (property === "id") {
+				continue;
 			}
-			else if (type(obj1[property]) === "Array") {
-				// if should use id to look up
-				resultArr = [];
-				each(obj1[property], function (i, ele1) {
-					var matchingElement2 = find(obj2[property], function (j, ele2) {
-						return ele2.id !== undefined && ele2.id === ele1.id;
-					});
 
-					if (matchingElement2 !== undefined) {
-						resultArr.push(self.subtract(ele1, matchingElement2));
-					}
-					else {
-						resultArr.push(ele1);
-					}
-				});
+			result = self.subtract(obj1[property], obj2[property]);
 
-				obj1[property] = resultArr;
-				// else use position to look up
-				slate[property] = arraySubtract(slate[property], obj2[property]);
-			}
-			else if (property !== "id" && slate[property] === obj2[property]) {
+			if (result === undefined) {
 				delete slate[property];
 			}
+			else {
+				slate[property] = result;
+			}
+		}
+
+		if (isEmpty(slate)) {
+			return undefined;
+		}
+		else {
+			return slate;
 		}
 	}
+	else if (type(obj1) === "Array") {
+		// if should use id to look up
+		resultArr = [];
+		each(obj1, function (i, ele1) {
+			var matchingElement2;
 
-	if (isEmpty(slate)) {
+			matchingElement2 = find(obj2, function (j, ele2) {
+				return (ele2.id !== undefined && ele2.id === ele1.id) ||
+					(ele2 === ele1);
+			});
+
+			result = self.subtract(ele1, matchingElement2);
+
+			if (result !== undefined) {
+				resultArr.push(result);
+			}
+		});
+
+		return resultArr;
+		// else use position to look up
+	}
+	else if (obj1 === obj2) {
 		return undefined;
 	}
 	else {
-		return slate;
+		return obj1;
 	}
 };
 

@@ -154,6 +154,17 @@ describe("Isa", function () {
 	});
 
 	describe("subtract()", function () {
+		describe("when subtracting undefined", function () {
+			it("should return original object", function () {
+				obj1 = { p1: 123 };
+				obj2 = undefined;
+				expected = obj1;
+
+				result = isa.subtract(obj1, obj2);
+				expect(result).toEqual(expected);
+			});
+		});
+
 		describe("when subtracting empty object", function () {
 			it("should return original object", function () {
 				obj1 = { p1: 123 };

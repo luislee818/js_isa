@@ -725,5 +725,159 @@ describe("Isa", function () {
 				expect(result).toEqual(expected);
 			});
 		});
+
+		describe("when adding with complex test data", function () {
+			it("should add correctly", function () {
+				obj1 = {
+					"surfaces": [
+					{
+						"elements": [
+						{
+							"frameId": "a97efd79-8f31-415b-864c-f0d1f9d44a3f",
+							"height": 120.00,
+							"id": "df6eb61a-cbd3-4635-aedb-ecbe87be7e3d"
+						}
+						],
+							"frames": [
+							{
+								"id": "a97efd79-8f31-415b-864c-f0d1f9d44a3f"
+							}
+						]
+					}
+					]
+				};
+				obj2 = {
+					"surfaces": [
+					{
+						"elements": [
+						{
+							"frameId": "6f6364ab-d64c-4b19-ab6a-a338de7949fd",
+							"height": 120.00,
+							"id": "0e0bde0e-bec8-4e65-b4c4-63b76fa412e5"
+						}
+						],
+							"frames": [
+							{
+								"id": "6f6364ab-d64c-4b19-ab6a-a338de7949fd"
+							}
+						]
+					}
+					]
+				};
+				expected = {
+					"surfaces": [
+					{
+						"elements": [
+						{
+							"frameId": "a97efd79-8f31-415b-864c-f0d1f9d44a3f",
+							"height": 120.00,
+							"id": "df6eb61a-cbd3-4635-aedb-ecbe87be7e3d"
+						},
+						{
+							"frameId": "6f6364ab-d64c-4b19-ab6a-a338de7949fd",
+							"height": 120.00,
+							"id": "0e0bde0e-bec8-4e65-b4c4-63b76fa412e5"
+						}
+						],
+						"frames": [
+						{
+							"id": "a97efd79-8f31-415b-864c-f0d1f9d44a3f"
+						},
+						{
+							"id": "6f6364ab-d64c-4b19-ab6a-a338de7949fd"
+						}
+						]
+					}
+					]
+				};
+
+				result = isa.add(obj1, obj2);
+
+				expect(result).toEqual(expected);
+			});
+		});
+
+		describe("when adding with more complex test data", function () {
+			it("should subtract correctly", function () {
+				obj1 = {
+					"fontSize": {
+						"maximum": 36,
+						"minimum": 8
+					},
+					"id": "6b6a25aa-3035-47ff-95e0-94417148a0d1",
+					"productType": "Standard",
+					"surfaces": [
+					{
+						"elements": [
+						{
+							"frameId": "a97efd79-8f31-415b-864c-f0d1f9d44a3f",
+							"height": 120.00,
+							"id": "df6eb61a-cbd3-4635-aedb-ecbe87be7e3d"
+						}
+						],
+						"frames": [
+						{
+							"id": "a97efd79-8f31-415b-864c-f0d1f9d44a3f"
+						}
+						]
+					}
+					]
+				};
+				obj2 = {
+					"surfaces": [
+					{
+						"elements": [
+						{
+							"frameId": "6f6364ab-d64c-4b19-ab6a-a338de7949fd",
+							"height": 120.00,
+							"id": "0e0bde0e-bec8-4e65-b4c4-63b76fa412e5"
+						}
+						],
+						"frames": [
+						{
+							"id": "6f6364ab-d64c-4b19-ab6a-a338de7949fd"
+						}
+						]
+					}
+					]
+				};
+				expected = {
+					"fontSize": {
+						"maximum": 36,
+						"minimum": 8
+					},
+					"id": "6b6a25aa-3035-47ff-95e0-94417148a0d1",
+					"productType": "Standard",
+					"surfaces": [
+					{
+						"elements": [
+						{
+							"frameId": "a97efd79-8f31-415b-864c-f0d1f9d44a3f",
+							"height": 120.00,
+							"id": "df6eb61a-cbd3-4635-aedb-ecbe87be7e3d"
+						},
+						{
+							"frameId": "6f6364ab-d64c-4b19-ab6a-a338de7949fd",
+							"height": 120.00,
+							"id": "0e0bde0e-bec8-4e65-b4c4-63b76fa412e5"
+						}
+						],
+						"frames": [
+						{
+							"id": "a97efd79-8f31-415b-864c-f0d1f9d44a3f"
+						},
+						{
+							"id": "6f6364ab-d64c-4b19-ab6a-a338de7949fd"
+						}
+						]
+					}
+					]
+				};
+
+				result = isa.add(obj1, obj2);
+
+				expect(result).toEqual(expected);
+			});
+		});
 	});
 });

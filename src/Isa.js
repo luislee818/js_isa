@@ -181,24 +181,31 @@ Isa.prototype.add = function (obj1, obj2) {
 		slate = clone(obj1);
 
 		each(obj2, function (j, ele2) {
-			if (ele2.id !== undefined) {
-				var matchingElement1Index;
+			if (type(ele2) === "Object") {
+				if (ele2.id !== undefined) {
+					var matchingElement1Index;
 
-				matchingElement1 = find(obj1, function (i, ele1) {
-					if (ele2.id === ele1.id) {
-						matchingElement1Index = i;
-						return true;
+					matchingElement1 = find(obj1, function (i, ele1) {
+						if (ele2.id === ele1.id) {
+							matchingElement1Index = i;
+							return true;
+						}
+
+						return false;
+					});
+
+					if (matchingElement1 === undefined) {
+						slate.push(ele2);
 					}
-
-					return false;
-				});
-
-				if (matchingElement1 === undefined) {
-					slate.push(ele2);
+					else {
+						result = self.add(matchingElement1, ele2);
+						slate[matchingElement1Index] = result;
+					}
 				}
-				else {
+				else if (j < obj1.length) {
+					matchingElement1 = obj1[j];
 					result = self.add(matchingElement1, ele2);
-					slate[matchingElement1Index] = result;
+					slate[j] = result;
 				}
 			}
 			else {

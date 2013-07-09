@@ -186,6 +186,29 @@ describe("Isa", function () {
 					p1: "foo"
 				};
 				expected = {
+					p1: 123,
+					p2: "abc"
+				};
+
+				result = isa.subtract(obj1, obj2);
+				expect(result).toEqual(expected);
+			});
+		});
+
+		describe("when subtracting non-empty object with one layer of depth and id property", function () {
+			it("should return an object subtracting properties from obj2, leave id property", function () {
+				obj1 = {
+					id: 1,
+					p1: 123,
+					p2: "abc"
+				};
+				obj2 = {
+					id: 1,
+					p1: "foo"
+				};
+				expected = {
+					id: 1,
+					p1: 123,
 					p2: "abc"
 				};
 
@@ -213,6 +236,7 @@ describe("Isa", function () {
 					}
 				};
 				expected = {
+					p1: 123,
 					p2: "abc",
 					p3: {
 						p32: "foo",
@@ -278,33 +302,33 @@ describe("Isa", function () {
 			});
 		});
 
-		describe("when subtracting with object with property of array of objects with ids", function () {
-			it("should remove properties from objects with matching ids in arrays", function () {
-				obj1 = {
-					p1: [
-						{ id: 123, foo: "abc", bar: "quxx" },
-						{ id: 456 },
-						{ id: 789 }
-					]
-				};
-				obj2 = {
-					p1: [
-						{ id: 123, foo: "def" },
-						{ id: 789 }
-					]
-				};
-				expected = {
-					p1: [
-						{ id: 123, bar: "quxx" },
-						{ id: 456 }
-					]
-				};
+		/* describe("when subtracting with object with property of array of objects with ids", function () { */
+		/* 	it("should remove properties from objects with matching ids in arrays", function () { */
+		/* 		obj1 = { */
+		/* 			p1: [ */
+		/* 				{ id: 123, foo: "abc", bar: "quxx" }, */
+		/* 				{ id: 456 }, */
+		/* 				{ id: 789 } */
+		/* 			] */
+		/* 		}; */
+		/* 		obj2 = { */
+		/* 			p1: [ */
+		/* 				{ id: 123, foo: "def" }, */
+		/* 				{ id: 789 } */
+		/* 			] */
+		/* 		}; */
+		/* 		expected = { */
+		/* 			p1: [ */
+		/* 				{ id: 123, bar: "quxx" }, */
+		/* 				{ id: 456 } */
+		/* 			] */
+		/* 		}; */
 
-				result = isa.subtract(obj1, obj2);
+		/* 		result = isa.subtract(obj1, obj2); */
 
-				expect(result).toEqual(expected);
-			});
-		});
+		/* 		expect(result).toEqual(expected); */
+		/* 	}); */
+		/* }); */
 
 		/* describe("when subtracting with object with property of array of objects without ids", function () { */
 		/* 	it("should subtract objects with matching indexes from array", function () { */

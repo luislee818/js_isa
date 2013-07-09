@@ -109,7 +109,7 @@ Isa.prototype.subtract = function (obj1, obj2) {
 				// else use position to look up
 				slate[property] = arraySubtract(slate[property], obj2[property]);
 			}
-			else {
+			else if (property !== "id" && slate[property] === obj2[property]) {
 				delete slate[property];
 			}
 		}
